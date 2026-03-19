@@ -198,7 +198,7 @@ export function Products() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className="aspect-[21/9]">
+          <div className="relative aspect-[21/9]">
             <Image
               src="/images/product-range.jpg"
               alt="Aquapure Water product range"

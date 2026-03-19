@@ -154,12 +154,14 @@ export function Hero() {
               {/* Glowing background effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent rounded-full blur-3xl animate-pulse" />
               
-              <div className="relative animate-float">
+              <div className="absolute inset-0 animate-float">
                 <Image
                   src="/images/water-bottle.jpg"
                   alt="Aquapure Water Bottle"
                   fill
+                  sizes="(max-width: 1024px) 0vw, 512px"
                   className="object-contain drop-shadow-2xl"
+                  priority
                 />
               </div>
               

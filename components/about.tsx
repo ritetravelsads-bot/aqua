@@ -55,13 +55,15 @@ export function About() {
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
-              <Image
-                src="/images/purification.jpg"
-                alt="Aquapure Water purification facility"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-              />
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
+              <div className="relative w-full h-full">
+                <Image
+                  src="/images/purification.jpg"
+                  alt="Aquapure Water purification facility"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 to-transparent" />
             </div>
             
