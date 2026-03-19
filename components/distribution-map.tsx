@@ -2,18 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { MapPin, Truck, Clock, Users, CheckCircle } from "lucide-react"
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-  Annotation,
-} from "react-simple-maps"
-
-const INDIA_TOPO_JSON = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
-
-// Delhi coordinates (latitude, longitude)
-const DELHI_COORDINATES: [number, number] = [77.1025, 28.7041]
+import Image from "next/image"
 
 const distributionStats = [
   {
@@ -104,97 +93,26 @@ export function DistributionMap() {
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
-            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-6 border border-border/50 overflow-hidden">
+            <div className="relative bg-gradient-to-br from-muted/30 to-muted/10 rounded-3xl p-6 border border-border/50 overflow-hidden">
               <div className="relative aspect-square w-full">
-                <ComposableMap
-                  projection="geoMercator"
-                  projectionConfig={{
-                    scale: 1000,
-                    center: [82, 22],
-                  }}
-                  className="w-full h-full"
-                >
-                  <Geographies geography={INDIA_TOPO_JSON}>
-                    {({ geographies }) =>
-                      geographies
-                        .filter((geo) => geo.properties.name === "India")
-                        .map((geo) => (
-                          <Geography
-                            key={geo.rsmKey}
-                            geography={geo}
-                            fill="hsl(var(--muted))"
-                            stroke="hsl(var(--border))"
-                            strokeWidth={0.5}
-                            style={{
-                              default: { outline: "none" },
-                              hover: { outline: "none" },
-                              pressed: { outline: "none" },
-                            }}
-                          />
-                        ))
-                    }
-                  </Geographies>
-
-                  {/* Delhi NCR Pulsing Circle */}
-                  <Marker coordinates={DELHI_COORDINATES}>
-                    <circle
-                      r={30}
-                      fill="hsl(var(--primary))"
-                      fillOpacity={0.15}
-                      className="animate-ping"
-                    />
-                  </Marker>
-                  <Marker coordinates={DELHI_COORDINATES}>
-                    <circle
-                      r={20}
-                      fill="hsl(var(--primary))"
-                      fillOpacity={0.25}
-                      className="animate-pulse"
-                    />
-                  </Marker>
-                  <Marker coordinates={DELHI_COORDINATES}>
-                    <circle
-                      r={8}
-                      fill="hsl(var(--primary))"
-                      stroke="#fff"
-                      strokeWidth={2}
-                    />
-                  </Marker>
-
-                  {/* Delhi Label */}
-                  <Annotation
-                    subject={DELHI_COORDINATES}
-                    dx={-40}
-                    dy={-40}
-                    connectorProps={{
-                      stroke: "hsl(var(--primary))",
-                      strokeWidth: 2,
-                      strokeLinecap: "round",
-                    }}
-                  >
-                    <text
-                      x="-8"
-                      textAnchor="end"
-                      alignmentBaseline="middle"
-                      fill="hsl(var(--primary))"
-                      fontWeight="bold"
-                      fontSize={14}
-                    >
-                      Delhi NCR
-                    </text>
-                  </Annotation>
-                </ComposableMap>
+                <Image
+                  src="/images/india-map.png"
+                  alt="India map showing Delhi NCR distribution area"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               </div>
 
               {/* Legend */}
               <div className="absolute bottom-4 left-4 bg-card/90 backdrop-blur-sm rounded-xl p-4 shadow-lg">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-4 h-4 rounded-full bg-primary animate-pulse" />
+                  <div className="w-4 h-4 rounded-full bg-red-500" />
                   <span className="text-sm font-medium text-foreground">Active Distribution Zone</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border-2 border-primary/40 border-dashed" />
-                  <span className="text-sm text-muted-foreground">Coverage Radius</span>
+                  <MapPin className="h-4 w-4 text-red-500" />
+                  <span className="text-sm text-muted-foreground">Delhi NCR Location</span>
                 </div>
               </div>
             </div>
