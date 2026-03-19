@@ -2,7 +2,18 @@
 
 import { useEffect, useRef, useState } from "react"
 import { MapPin, Truck, Clock, Users, CheckCircle } from "lucide-react"
-import Image from "next/image"
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker,
+  Annotation,
+} from "react-simple-maps"
+
+const INDIA_TOPO_JSON = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
+
+// Delhi coordinates (latitude, longitude)
+const DELHI_COORDINATES: [number, number] = [77.1025, 28.7041]
 
 const distributionStats = [
   {
@@ -87,43 +98,92 @@ export function DistributionMap() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* India Map SVG */}
+          {/* India Map */}
           <div
             className={`relative transition-all duration-1000 ${
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
             <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-6 border border-border/50 overflow-hidden">
-              {/* India Map Image */}
-              <div className="relative aspect-[4/5] w-full">
-                <Image
-                  src="/images/india-map.jpg"
-                  alt="India map showing Delhi NCR distribution area"
-                  fill
-                  className="object-contain rounded-2xl"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                
-                {/* Delhi NCR Marker Overlay */}
-                <div className="absolute top-[22%] left-[48%] transform -translate-x-1/2 -translate-y-1/2 z-10">
-                  {/* Pulsing rings */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full border-2 border-primary/30 animate-ping" />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-full border-2 border-primary/50 animate-pulse" />
-                  </div>
-                  {/* Center marker */}
-                  <div className="relative flex items-center justify-center w-10 h-10">
-                    <div className="w-6 h-6 rounded-full bg-primary shadow-lg shadow-primary/50" />
-                    <div className="absolute w-3 h-3 rounded-full bg-white" />
-                  </div>
-                </div>
-                
-                {/* Delhi NCR Label */}
-                <div className="absolute top-[15%] left-[48%] transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold shadow-lg z-10">
-                  Delhi NCR
-                </div>
+              <div className="relative aspect-square w-full">
+                <ComposableMap
+                  projection="geoMercator"
+                  projectionConfig={{
+                    scale: 1000,
+                    center: [82, 22],
+                  }}
+                  className="w-full h-full"
+                >
+                  <Geographies geography={INDIA_TOPO_JSON}>
+                    {({ geographies }) =>
+                      geographies
+                        .filter((geo) => geo.properties.name === "India")
+                        .map((geo) => (
+                          <Geography
+                            key={geo.rsmKey}
+                            geography={geo}
+                            fill="hsl(var(--muted))"
+                            stroke="hsl(var(--border))"
+                            strokeWidth={0.5}
+                            style={{
+                              default: { outline: "none" },
+                              hover: { outline: "none" },
+                              pressed: { outline: "none" },
+                            }}
+                          />
+                        ))
+                    }
+                  </Geographies>
+
+                  {/* Delhi NCR Pulsing Circle */}
+                  <Marker coordinates={DELHI_COORDINATES}>
+                    <circle
+                      r={30}
+                      fill="hsl(var(--primary))"
+                      fillOpacity={0.15}
+                      className="animate-ping"
+                    />
+                  </Marker>
+                  <Marker coordinates={DELHI_COORDINATES}>
+                    <circle
+                      r={20}
+                      fill="hsl(var(--primary))"
+                      fillOpacity={0.25}
+                      className="animate-pulse"
+                    />
+                  </Marker>
+                  <Marker coordinates={DELHI_COORDINATES}>
+                    <circle
+                      r={8}
+                      fill="hsl(var(--primary))"
+                      stroke="#fff"
+                      strokeWidth={2}
+                    />
+                  </Marker>
+
+                  {/* Delhi Label */}
+                  <Annotation
+                    subject={DELHI_COORDINATES}
+                    dx={-40}
+                    dy={-40}
+                    connectorProps={{
+                      stroke: "hsl(var(--primary))",
+                      strokeWidth: 2,
+                      strokeLinecap: "round",
+                    }}
+                  >
+                    <text
+                      x="-8"
+                      textAnchor="end"
+                      alignmentBaseline="middle"
+                      fill="hsl(var(--primary))"
+                      fontWeight="bold"
+                      fontSize={14}
+                    >
+                      Delhi NCR
+                    </text>
+                  </Annotation>
+                </ComposableMap>
               </div>
 
               {/* Legend */}
