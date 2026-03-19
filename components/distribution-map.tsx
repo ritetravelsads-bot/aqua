@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { MapPin, Truck, Clock, Users, CheckCircle } from "lucide-react"
+import Image from "next/image"
 
 const distributionStats = [
   {
@@ -92,73 +93,38 @@ export function DistributionMap() {
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
-            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border border-border/50">
-              <svg
-                viewBox="0 0 400 450"
-                className="w-full h-auto max-h-[500px]"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* India outline - simplified */}
-                <path
-                  d="M180 30 L220 25 L260 35 L290 30 L320 45 L340 70 L360 100 L370 130 L375 160 L370 190 L360 220 L340 250 L320 280 L290 300 L260 330 L240 360 L220 390 L200 420 L180 430 L160 420 L150 390 L140 360 L120 330 L90 300 L70 270 L55 240 L45 200 L40 160 L50 120 L70 90 L100 60 L130 40 L160 30 Z"
-                  className="fill-muted/30 stroke-border"
-                  strokeWidth="2"
+            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-6 border border-border/50 overflow-hidden">
+              {/* India Map Image */}
+              <div className="relative aspect-[4/5] w-full">
+                <Image
+                  src="/images/india-map.jpg"
+                  alt="India map showing Delhi NCR distribution area"
+                  fill
+                  className="object-contain rounded-2xl"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 
-                {/* Kashmir region */}
-                <path
-                  d="M180 30 L200 20 L230 25 L260 35 L280 30 L290 40 L275 60 L250 70 L220 65 L190 55 L175 45 Z"
-                  className="fill-muted/20 stroke-border"
-                  strokeWidth="1"
-                />
+                {/* Delhi NCR Marker Overlay */}
+                <div className="absolute top-[22%] left-[48%] transform -translate-x-1/2 -translate-y-1/2 z-10">
+                  {/* Pulsing rings */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-full border-2 border-primary/30 animate-ping" />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full border-2 border-primary/50 animate-pulse" />
+                  </div>
+                  {/* Center marker */}
+                  <div className="relative flex items-center justify-center w-10 h-10">
+                    <div className="w-6 h-6 rounded-full bg-primary shadow-lg shadow-primary/50" />
+                    <div className="absolute w-3 h-3 rounded-full bg-white" />
+                  </div>
+                </div>
                 
-                {/* Delhi NCR region - highlighted */}
-                <g className="animate-pulse">
-                  <circle
-                    cx="195"
-                    cy="120"
-                    r="25"
-                    className="fill-primary/20 stroke-primary"
-                    strokeWidth="2"
-                  />
-                  <circle
-                    cx="195"
-                    cy="120"
-                    r="35"
-                    className="fill-none stroke-primary/40"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                  />
-                  <circle
-                    cx="195"
-                    cy="120"
-                    r="45"
-                    className="fill-none stroke-primary/20"
-                    strokeWidth="1"
-                    strokeDasharray="2 4"
-                  />
-                </g>
-                
-                {/* Delhi marker */}
-                <g>
-                  <circle cx="195" cy="120" r="8" className="fill-primary" />
-                  <circle cx="195" cy="120" r="4" className="fill-primary-foreground" />
-                </g>
-                
-                {/* Major cities dots */}
-                <circle cx="130" cy="180" r="3" className="fill-muted-foreground/50" />
-                <circle cx="280" cy="200" r="3" className="fill-muted-foreground/50" />
-                <circle cx="100" cy="280" r="3" className="fill-muted-foreground/50" />
-                <circle cx="320" cy="320" r="3" className="fill-muted-foreground/50" />
-                <circle cx="240" cy="380" r="3" className="fill-muted-foreground/50" />
-                <circle cx="150" cy="350" r="3" className="fill-muted-foreground/50" />
-                
-                {/* Label */}
-                <text x="195" y="80" className="fill-primary font-semibold text-sm" textAnchor="middle">
+                {/* Delhi NCR Label */}
+                <div className="absolute top-[15%] left-[48%] transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold shadow-lg z-10">
                   Delhi NCR
-                </text>
-              </svg>
+                </div>
+              </div>
 
               {/* Legend */}
               <div className="absolute bottom-4 left-4 bg-card/90 backdrop-blur-sm rounded-xl p-4 shadow-lg">
