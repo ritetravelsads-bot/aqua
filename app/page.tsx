@@ -3,6 +3,8 @@ import { Hero } from "@/components/hero"
 import { Features } from "@/components/features"
 import { About } from "@/components/about"
 import { Products } from "@/components/products"
+import { DistributionMap } from "@/components/distribution-map"
+import { Services } from "@/components/services"
 import { Quality } from "@/components/quality"
 import { Testimonials } from "@/components/testimonials"
 import { CTA } from "@/components/cta"
@@ -17,6 +19,8 @@ export default function Home() {
       <Features />
       <About />
       <Products />
+      <DistributionMap />
+      <Services />
       <Quality />
       <Testimonials />
       <CTA />

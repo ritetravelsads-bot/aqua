@@ -55,7 +55,7 @@ export function About() {
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
               <Image
                 src="/images/purification.jpg"
                 alt="Aquapure Water purification facility"
